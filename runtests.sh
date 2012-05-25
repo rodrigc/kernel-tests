@@ -9,6 +9,9 @@ testset=default
 kver=$(uname -r)
 release=$(cat /etc/redhat-release)
 
+if [ ! -d "$topdir/logs" ] ; then
+	mkdir $topdir/logs
+fi
 
 args=y
 
