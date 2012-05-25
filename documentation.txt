@@ -1,0 +1,79 @@
+=== Running Tests ===
+
+In the simplest of terms, simply run the runtests.sh script with no arguments.
+This will run the default tests, which include all tests in the minimal and
+default directories.  Right now the only supported arg is -t <testset> which
+will specify a different test set to run. Valid test sets are:
+
+minimal - only runs tests in the minimal directory
+default - runs tests in both minimal and default
+stress - runs tests in minimal, default, and stress
+destructive - runs tests in minimal, default, and destructive
+
+If you choose destructive it will ask if you are sure.  If you say no, it will
+run default instead.  More descriptive output should be in the logfile, in the
+logs directory.
+
+=== Writing Tests ===
+
+While a test can actually be any sort of executable, it is expected that
+these tests will follow certain basic criteria.  This helps to ensure that
+the test suite is easy to interpret.  The output is controlled by the
+master script, and output is in the form of pass, fail, or skipped. All
+other output is redirected to the log file.
+
+Return Codes:
+0 - A successful test completion
+3 - Test skipped 
+Anything else is interpreted as fail and the user is asked to check the log
+for more details.
+
+Clean up:
+Each test should clean up after itself.  Residue from a test should never
+impact any other test.  If you are creating something, destroy it when you
+finish.
+
+Directory Structure:
+Each test should be contained in a unique directory within the appropriate
+top level.  The directory must contain an executable 'runtest.sh' which will
+drive the specific test.  There is no guarantee on the order of execution.
+Each test should be fully independent, and have no dependency on other tests.
+The top level directories are reflective of how the master test suite is called.
+Each option is a super-set of the options before it.  At this time we have:
+
+minimal: This directory should include small, fast, and important tests
+which would should be run on every system.
+
+default: This directory will include most tests which are not destructive,
+or particularly long to run.  When a user runs with no flags, all tests in
+both default and minimal will be run.
+
+stress: This directory will include longer running and more resource intensive
+tests which a user might not want to run in the common case due to time or
+resource constraints.
+
+destructive: This directory contains tests which have a higher probability of
+causing harm to a system even in the pass case.  This would include things 
+like potential for data loss.
+
+Test Execution:
+Each test is executed by the control script by calling runtest.sh.  stdout
+and stderr are both redirected to the log.  Any user running with default
+flags should see nothing but the name of the directory and pass/fail/skip.
+The runtest.sh should manage the full test run.  This includes compiling 
+any necessary source, checking for any specific dependencies, and skipping
+if they are not met.
+
+Potential for harm:
+It is expected that these test will be run on real systems.  Any tests
+which have increased risk of data loss or ill effects should be specified
+destructive, and placed in the destructive directory. Users wishing to run
+the full destructive test run are prompted loudly before it continues. The
+last thing we want to do is make ordinary users afraid to run the test
+suite.
+
+Utility:
+As a large number of tests are written as simple shell scripts, and many of
+these tests need to perform a series of the same functions, a "library" has
+been created to allow for reuse. source the testutil file as needed.  Any
+functions added to testutil should be clearly commented with purpose and use.
