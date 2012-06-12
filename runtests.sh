@@ -9,6 +9,13 @@ testset=default
 kver=$(uname -r)
 release=$(cat /etc/redhat-release)
 
+# Check for pre-requisites.
+if [ ! -f /usr/bin/gcc ]; then
+	echo Fedora kernel test suite needs gcc.
+	exit
+fi
+
+
 if [ ! -d "$topdir/logs" ] ; then
 	mkdir $topdir/logs
 fi
