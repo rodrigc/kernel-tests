@@ -11,6 +11,16 @@ check_kill()
 	fi
 }
 
+check_bits()
+{
+	str="$1"
+	BITS=$(grep "$str" results.txt | sed -e "s/$str//" | sed s/:// | sed s/\ bits// | sed s/\(guessed\)// | sed s/\ //g);
+	if [ "$BITS" -lt "$2" ]; then
+		echo "$1 randomness is less than $2 bits ($BITS)"
+		exit -1
+	fi
+}
+
 # Build.
 make linux >/dev/null 2>/dev/null
 if [ ! -f ./paxtest ]; then
@@ -52,6 +62,16 @@ if [ "$ARCH" == "x86_64" ]; then
 
 	check_kill "Return to function (memcpy)"
 	check_kill "Return to function (memcpy, PIE)"
+
+	check_bits "Anonymous mapping randomisation test" 28
+	check_bits "Heap randomisation test (ET_EXEC)" 14
+	check_bits "Heap randomisation test (PIE)" 28
+#	check_bits "Main executable randomisation (ET_EXEC)  : No randomisation
+	check_bits "Main executable randomisation (PIE)" 28
+#	check_bits "Shared library randomisation test        : No randomisation
+	check_bits "Stack randomisation test (SEGMEXEC)" 28
+	check_bits "Stack randomisation test (PAGEEXEC)" 28
+
 
 else
 	echo FIXME: Unsupported ARCH: $(uname -m)
