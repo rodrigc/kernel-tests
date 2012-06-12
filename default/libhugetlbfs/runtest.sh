@@ -46,4 +46,4 @@ obj/hugeadm --pool-pages-max 2MB:0
 
 make clean > /dev/null 2> /dev/null
 cd ..
-rm -rf libhugeltbfs_results.*
+rm -rf libhugetlbfs_results.*
