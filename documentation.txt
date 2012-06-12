@@ -14,6 +14,10 @@ If you choose destructive it will ask if you are sure.  If you say no, it will
 run default instead.  More descriptive output should be in the logfile, in the
 logs directory.
 
+It is expected that a basic set of packages are installed to run these tests.
+This includes glibc-devel and gcc.  If those packages are not installed, please
+install them before running the test suite.
+
 === Writing Tests ===
 
 While a test can actually be any sort of executable, it is expected that
