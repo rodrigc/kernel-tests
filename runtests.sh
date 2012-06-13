@@ -15,6 +15,10 @@ if [ ! -f /usr/bin/gcc ]; then
 	exit
 fi
 
+# unset MALLOC_CHECK_ and MALLOC_PERTURB_.  Some tests might not work well
+# with those active (like libhugetlbfs)
+unset MALLOC_CHECK_
+unset MALLOC_PERTURB_
 
 if [ ! -d "$topdir/logs" ] ; then
 	mkdir $topdir/logs
