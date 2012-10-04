@@ -9,6 +9,7 @@ minimal - only runs tests in the minimal directory
 default - runs tests in both minimal and default
 stress - runs tests in minimal, default, and stress
 destructive - runs tests in minimal, default, and destructive
+performance - runs tests only in the performance directory
 
 If you choose destructive it will ask if you are sure.  If you say no, it will
 run default instead.  More descriptive output should be in the logfile, in the
