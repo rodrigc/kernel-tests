@@ -65,8 +65,11 @@ destructive)
 		testset=default
 	fi
 	;;
+performance)
+	dirlist="performance"
+	;;
 *)
-	echo "supported test sets are minimal default stress or destructive"
+	echo "supported test sets are minimal, default, stress, destructive or performance"
 	exit 1
 esac
 
@@ -92,19 +95,24 @@ do
 		#TO DO:  purpose file test name format
 		testname=$testdir
 		echo "Starting test $testname" >> $logfile
-		./runtest.sh &>>$logfile
-		complete=$?
-		case $complete in
-		0)
-			result=PASS
-			;;
-		3)
-			result=SKIP
-			;;
-		*)
-			result=FAIL
-		esac
-		printf "%-65s%-8s\n" "$testname" "$result"
+
+		if [ "$testset" == "performance" ]; then
+			./runtest.sh >>$logfile
+		else
+			./runtest.sh &>>$logfile
+			complete=$?
+			case $complete in
+			0)
+				result=PASS
+				;;
+			3)
+				result=SKIP
+				;;
+			*)
+				result=FAIL
+			esac
+			printf "%-65s%-8s\n" "$testname" "$result"
+		fi
 		popd &>/dev/null
 	done
 done
