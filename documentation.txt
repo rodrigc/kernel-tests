@@ -61,6 +61,9 @@ destructive: This directory contains tests which have a higher probability of
 causing harm to a system even in the pass case.  This would include things 
 like potential for data loss.
 
+performance: This directory contains tests aimed at performance regressions.
+Tests in this directory may take considerably longer to complete.
+
 Test Execution:
 Each test is executed by the control script by calling runtest.sh.  stdout
 and stderr are both redirected to the log.  Any user running with default
