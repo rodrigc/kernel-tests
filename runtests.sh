@@ -5,6 +5,7 @@ topdir=$(pwd)
 logfile=$topdir/logs/kernel-test-$date.log
 verbose=n
 testset=default
+cleanrun=PASS
 
 kver=$(uname -r)
 release=$(cat /etc/redhat-release)
@@ -112,7 +113,18 @@ do
 				result=FAIL
 			esac
 			printf "%-65s%-8s\n" "$testname" "$result"
+			if [ "$result" == "FAIL" ]; then
+				cleanrun=FAIL
+			fi
 		fi
 		popd &>/dev/null
 	done
 done
+
+if [ "$cleanrun" == "FAIL" ]; then
+	printf "\n%-65s%-8s\n" "Test suite complete" "$cleanrun"
+	exit 1
+else
+	printf "\n%-65s%-8s\n" "Test suite complete" "$cleanrun"
+	exit 0
+fi
