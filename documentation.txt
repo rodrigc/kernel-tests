@@ -70,7 +70,9 @@ and stderr are both redirected to the log.  Any user running with default
 flags should see nothing but the name of the directory and pass/fail/skip.
 The runtest.sh should manage the full test run.  This includes compiling 
 any necessary source, checking for any specific dependencies, and skipping
-if they are not met.
+if they are not met. At the completion of the test set, a "Test suite complete"
+is printed with a pass/fail result, and the appropriate return code.
+
 
 Potential for harm:
 It is expected that these test will be run on real systems.  Any tests
