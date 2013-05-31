@@ -30,7 +30,7 @@ popd
 # kick some combination of them off in parallel and let them run for a specific
 # duration
 ./mmstress.sh
-./diostress.sh
+#./diostress.sh
 ./fsstress.sh
 # XXXXXX
 
