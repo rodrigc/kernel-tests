@@ -22,12 +22,18 @@ pushd ltp
 make autotools
 ./configure
 make all
+popd
 
 # Call the stress test scripts now
-
+# Right now, these are kind of more "regression" rather than stress.  They can
+# take some time, but they're executed sequentially.  Eventually we'll want to
+# kick some combination of them off in parallel and let them run for a specific
+# duration
+./mmstress.sh
+./diostress.sh
+./fsstress.sh
 # XXXXXX
 
-popd
 
 # Cleanup
 rm -rf ltp
