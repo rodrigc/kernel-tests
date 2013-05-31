@@ -17,7 +17,8 @@ check_dep() {
 	if [ $rc -ne 0 ]
 	then
 		echo "Could not find $1.  Attempting to install"
-		return install_dep $1
+		install_dep $1
+		rc=$?
 	fi
-	return 0
+	return $rc
 }
