@@ -1,7 +1,7 @@
 #!/bin/bash
 
 install_dep() {
-	yum install $1;
+	yum install -y $1;
 	rc=$?;
 	if [ $rc -ne 0 ]
 	then
