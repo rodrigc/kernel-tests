@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 pushd ltp
 export PATH=$PATH:`pwd`/testcases/kernel/mem/mtest01/:`pwd`/testcases/kernel/mem/mtest01/:`pwd`/testcases/kernel/mem/mmapstress/:`pwd`/testcases/kernel/mem/page/:`pwd`/testcases/kernel/syscalls/mmap/:`pwd`/testcases/kernel/mem/mtest05/:`pwd`/testcases/kernel/mem/mtest06/:`pwd`/testcases/kernel/mem/vmtests/:`pwd`/testcases/kernel/mem/shmt/
 
@@ -9,7 +11,6 @@ mtest01 -p80
 mtest01 -p80 -w
 mmstress
 mmap1 -x 0.05
-mem02
 
 # This runs for a long time.  Revisit
 # mmap-corruption01 -h1 -m1 -s1

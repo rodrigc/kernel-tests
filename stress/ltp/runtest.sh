@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 source ../../utils/root-check.sh
 source ../../utils/build-deps.sh
 
@@ -16,6 +14,8 @@ check_dep autoconf
 check_dep git
 check_dep automake
 check_dep make
+
+set -e
 
 git clone git://ltp.git.sourceforge.net/gitroot/ltp/ltp
 pushd ltp
