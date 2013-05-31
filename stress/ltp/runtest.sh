@@ -32,6 +32,7 @@ popd
 ./mmstress.sh
 #./diostress.sh
 ./fsstress.sh
+./ipcstress.sh
 # XXXXXX
 
 
