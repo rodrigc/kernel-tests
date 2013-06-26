@@ -76,7 +76,7 @@ if [ "$ARCH" == "x86_64" ]; then
 else
 	echo FIXME: Unsupported ARCH: $(uname -m)
 	cat results.txt
-	exit -1
+	exit 3
 fi
 
 
