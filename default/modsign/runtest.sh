@@ -10,7 +10,8 @@ fi
 
 # Run
 ./modsign_tests.sh
-if [ "$?" -ne "0" ]; then
+result=$?
+if [ "$result" -ne "0" ]; then
 	echo "Could not run tests"
-	exit -1
+	exit $result
 fi
