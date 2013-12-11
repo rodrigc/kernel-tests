@@ -6,6 +6,7 @@ logfile=$topdir/logs/kernel-test-$date.log
 verbose=n
 testset=default
 cleanrun=PASS
+failedtests=None
 
 kver=$(uname -r)
 release=$(cat /etc/redhat-release)
@@ -80,6 +81,7 @@ echo "Date: $(date)" > $logfile
 echo "Test set: $testset" >> $logfile
 echo "Kernel: $kver" >> $logfile
 echo "Release: $release" >> $logfile
+echo "Result: RESULTHOLDER" >> $logfile
 echo "============================================================" >>$logfile
 
 
@@ -115,11 +117,19 @@ do
 			printf "%-65s%-8s\n" "$testname" "$result"
 			if [ "$result" == "FAIL" ]; then
 				cleanrun=FAIL
+				if [ "$failedtests" == "None" ]; then
+					 failedtests="$testname"
+				else
+					failedtests="$failedtests $testname"
+				fi
 			fi
 		fi
 		popd &>/dev/null
 	done
 done
+
+# Fix up logfile headers
+sed -i "s,RESULTHOLDER,$cleanrun\nFailed Tests: $failedtests,g" $logfile
 
 if [ "$cleanrun" == "FAIL" ]; then
 	printf "\n%-65s%-8s\n" "Test suite complete" "$cleanrun"
