@@ -1,4 +1,7 @@
 #!/bin/sh
+#
+# Licensed under the terms of the GNU GPL License version 2
+
 COUNT=$(for i in `seq 1 1000` ; do grep stack /proc/self/maps; done  | sort -u | uniq -c | wc -l)
 
 if [ $COUNT -lt 950 ]; then

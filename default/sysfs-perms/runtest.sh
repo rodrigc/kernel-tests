@@ -1,4 +1,6 @@
 #!/bin/sh
+#
+# Licensed under the terms of the GNU GPL License version 2
 
 COUNT=$(find /sys -type f -perm 666 | ./ignore-files.sh | wc -l)
 

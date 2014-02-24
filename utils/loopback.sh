@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# Licensed under the terms of the GNU GPL License version 2
 
 create_sparse_file() {
 	dd if=/dev/zero of=$1 bs=1 count=0 seek=$2M ;

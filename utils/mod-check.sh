@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# Licensed under the terms of the GNU GPL License version 2
 
 # This function will check to see if a module is loaded. It is usefule
 # for tests which require specific modules or hardware.  If a module

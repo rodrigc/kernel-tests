@@ -1,4 +1,6 @@
 #!/bin/sh
+#
+# Licensed under the terms of the GNU GPL License version 2
 
 source ../../utils/root-check.sh
 
