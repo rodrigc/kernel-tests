@@ -23,6 +23,13 @@ check_bits()
 	fi
 }
 
+# Ensure SELinux is enforcing
+selinux=`getenforce`
+if [ "$selinux" != "Enforcing" ]; then
+        echo "SELinux must be enforcing for this test"
+        exit 3
+fi
+
 # Build.
 make linux >/dev/null 2>/dev/null
 if [ ! -f ./paxtest ]; then
