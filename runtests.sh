@@ -132,11 +132,13 @@ done
 
 # Fix up logfile headers
 sed -i "s,RESULTHOLDER,$cleanrun\nFailed Tests: $failedtests,g" $logfile
+printf "\n%-65s%-8s\n" "Test suite complete" "$cleanrun"
+
+printf "\nYour log file is located at: $logfile\n"
+printf "Submit your results to: https://apps.fedoraproject.org/kerneltest/\n"
 
 if [ "$cleanrun" == "FAIL" ]; then
-	printf "\n%-65s%-8s\n" "Test suite complete" "$cleanrun"
 	exit 1
 else
-	printf "\n%-65s%-8s\n" "Test suite complete" "$cleanrun"
 	exit 0
 fi
