@@ -4,7 +4,7 @@
 
 date=$(date +%s)
 topdir=$(pwd)
-logfile=$topdir/logs/kernel-test-$date.log
+logfile=$topdir/logs/kernel-test-$date.log.txt
 verbose=n
 testset=default
 cleanrun=PASS
