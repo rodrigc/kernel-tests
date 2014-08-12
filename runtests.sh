@@ -3,12 +3,18 @@
 # Licensed under the terms of the GNU GPL License version 2
 
 date=$(date +%s)
-topdir=$(pwd)
-logfile=$topdir/logs/kernel-test-$date.log.txt
+logdir=$(pwd)/logs
+logfile=$logdir/kernel-test-$date.log.txt
 verbose=n
 testset=default
 cleanrun=PASS
 failedtests=None
+commit=n
+commithook=/usr/bin/true
+
+if [ -f ./.config ]; then
+	source ./.config
+fi
 
 kver=$(uname -r)
 release=$(cat /etc/redhat-release)
@@ -24,8 +30,8 @@ fi
 unset MALLOC_CHECK_
 unset MALLOC_PERTURB_
 
-if [ ! -d "$topdir/logs" ] ; then
-	mkdir $topdir/logs
+if [ ! -d "$logdir" ] ; then
+	mkdir $logdir
 fi
 
 args=y
@@ -120,7 +126,7 @@ do
 			if [ "$result" == "FAIL" ]; then
 				cleanrun=FAIL
 				if [ "$failedtests" == "None" ]; then
-					 failedtests="$testname"
+					failedtests="$testname"
 				else
 					failedtests="$failedtests $testname"
 				fi
@@ -134,8 +140,14 @@ done
 sed -i "s,RESULTHOLDER,$cleanrun\nFailed Tests: $failedtests,g" $logfile
 printf "\n%-65s%-8s\n" "Test suite complete" "$cleanrun"
 
-printf "\nYour log file is located at: $logfile\n"
-printf "Submit your results to: https://apps.fedoraproject.org/kerneltest/\n"
+if [ "$commit" == "y" ]; then
+	printf "\nYour log file is being submitted\n"
+	$commithook
+else
+	printf "\nYour log file is located at: $logfile\n"
+	printf "Submit your results to: https://apps.fedoraproject.org/kerneltest/\n"
+fi
+
 
 if [ "$cleanrun" == "FAIL" ]; then
 	exit 1
