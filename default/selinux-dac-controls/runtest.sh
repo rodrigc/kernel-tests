@@ -13,7 +13,7 @@ if [ "$is_root" -ne "0" ]; then
 fi
 
 selinux=`getenforce`
-if [ "$selinux" == "Permissive" ]; then
+if [ "$selinux" != "Enforcing" ]; then
 	echo "SELinux must be enabled for this test"
 	exit 3
 fi
