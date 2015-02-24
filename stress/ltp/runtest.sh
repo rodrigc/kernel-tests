@@ -19,7 +19,7 @@ check_dep make
 
 set -e
 
-git clone git://ltp.git.sourceforge.net/gitroot/ltp/ltp
+git clone https://github.com/linux-test-project/ltp
 pushd ltp
 make autotools
 ./configure
