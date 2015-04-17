@@ -1,0 +1,37 @@
+# Fedora Result Submit Method
+# Default is no submit.  Other options are 'anonymous' where we get results
+# without requiring FAS authentication, or 'authenticated' which will use
+# FAS authentication to upload and give you credit towards Fedora Badges.
+
+submit=none
+# submit=anonymous
+# submit=authenticated
+
+
+# FAS User credentials.
+# Storing your FAS password here is technically possible, but not advisable
+# for security seasons
+
+# username=''
+# password=''
+
+# **************** Nothing to edit below here ****************
+
+case $submit in
+anonymous)
+	commit=y
+	commithook="curl -H 'Expect:' -F "user=anonymous" -F "test_result=@$logfile\;type=text/x-log" https://apps.fedoraproject.org/kerneltest/upload/anonymous
+	;;
+authenticated)
+	commit=y
+	if [ -n "$username" ]; then
+	        username="-u $username"
+	fi
+	if [ -n "$password" ]; then
+	        password="-p $password"
+	fi
+	commithook="fedora_submit.py $username $password -l $logfile"
+	;;
+*)
+	commithook=/usr/bin/true
+esac
