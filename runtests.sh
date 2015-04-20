@@ -14,6 +14,8 @@ commithook=/usr/bin/true
 
 if [ -f ./.config ]; then
 	source ./.config
+else
+	echo "No .config file found. You can cp config.example .config and edit as needed for easier log submission"
 fi
 
 kver=$(uname -r)
