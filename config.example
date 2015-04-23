@@ -20,7 +20,7 @@ submit=none
 case $submit in
 anonymous)
 	commit=y
-	commithook="curl -H 'Expect:' -F "user=anonymous" -F "test_result=@$logfile\;type=text/x-log" https://apps.fedoraproject.org/kerneltest/upload/anonymous
+	commithook="curl -H 'Expect:' -F "user=anonymous" -F "test_result=@$logfile\;type=text/x-log" https://apps.fedoraproject.org/kerneltest/upload/anonymous"
 	;;
 authenticated)
 	commit=y
@@ -30,7 +30,7 @@ authenticated)
 	if [ -n "$password" ]; then
 	        password="-p $password"
 	fi
-	commithook="fedora_submit.py $username $password -l $logfile"
+	commithook="./fedora_submit.py $username $password -l $logfile"
 	;;
 *)
 	commithook=/usr/bin/true
