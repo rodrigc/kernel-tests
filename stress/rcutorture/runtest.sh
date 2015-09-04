@@ -15,11 +15,11 @@ if [ -z "$TORTURE_PARAMS" ]; then
 fi
 
 # Make sure the rcutorture module is available to test
-insmod rcutorture $TORTURE_PARAMS
+modprobe rcutorture $TORTURE_PARAMS
 if [ $? -eq 0 ]; then
-	echo "insmod rcutorture $TORTURE_PARAMS passed"
+	echo "modprobe rcutorture $TORTURE_PARAMS passed"
 else
-	echo "insmod rcutorture $TORTURE_PARAMS failed"
+	echo "modprobe rcutorture $TORTURE_PARAMS failed"
 	exit 3
 fi
 
