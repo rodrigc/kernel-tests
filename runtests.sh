@@ -85,6 +85,10 @@ performance)
 	exit 1
 esac
 
+# Test Secure Boot?
+if  [ "$checksig" == "y" ]; then
+    dirlist="secureboot $dirlist"
+fi
 
 #Basic logfile headers
 echo "Date: $(date)" > $logfile
@@ -111,27 +115,29 @@ do
 
 		if [ "$testset" == "performance" ]; then
 			./runtest.sh >>$logfile
+		elif [ "$dir" == "secureboot" ]; then
+			./runtest.sh "$validsig" &>>$logfile
 		else
 			./runtest.sh &>>$logfile
-			complete=$?
-			case $complete in
-			0)
-				result=PASS
-				;;
-			3)
-				result=SKIP
-				;;
-			*)
-				result=FAIL
-			esac
-			printf "%-65s%-8s\n" "$testname" "$result"
-			if [ "$result" == "FAIL" ]; then
-				cleanrun=FAIL
-				if [ "$failedtests" == "None" ]; then
-					failedtests="$testname"
-				else
-					failedtests="$failedtests $testname"
-				fi
+		fi
+		complete=$?
+		case $complete in
+		0)
+			result=PASS
+			;;
+		3)
+			result=SKIP
+			;;
+		*)
+			result=FAIL
+		esac
+		printf "%-65s%-8s\n" "$testname" "$result"
+		if [ "$result" == "FAIL" ]; then
+			cleanrun=FAIL
+			if [ "$failedtests" == "None" ]; then
+				failedtests="$testname"
+			else
+				failedtests="$failedtests $testname"
 			fi
 		fi
 		popd &>/dev/null

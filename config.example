@@ -7,6 +7,9 @@ submit=none
 # submit=anonymous
 # submit=authenticated
 
+# Check Signature for Secure Boot
+# checksig=y
+# validsig="Fedora Secure Boot Signer"
 
 # FAS User credentials.
 # Storing your FAS password here is technically possible, but not advisable
