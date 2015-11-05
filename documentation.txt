@@ -1,3 +1,14 @@
+=== Introduction ===
+This test suite is designed to look for regressions in the running kernel. It
+is maintained by Justin Forbes and the Fedora kernel team.  Any issues or
+enhancements should be sent to the Fedora kernel list:
+kernel@lists.fedoraproject.org
+While Fedora runs this test suite on every kernel it builds, hardware can 
+vary significantly. Anyone running this suite and submitting results will
+only give us better test coverage.  You can set up basic result submission
+and secure boot signature checking in '.config'. The 'config.example' file
+is a great place to start.
+
 === Running Tests ===
 
 In the simplest of terms, simply run the runtests.sh script with no arguments.
