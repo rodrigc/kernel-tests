@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 
+from __future__ import print_function
+
 import subprocess
 import types
 import os
@@ -59,7 +61,7 @@ def snapshot_pool_state():
 def run_test_prog(bits, pagesize, cmd, **env):
     if paranoid_pool_check:
         beforepool = snapshot_pool_state()
-        print "Pool state: %s" % str(beforepool)
+        print("Pool state: %s" % str(beforepool))
 
     local_env = os.environ.copy()
     local_env.update(env)
@@ -82,9 +84,9 @@ def run_test_prog(bits, pagesize, cmd, **env):
     if paranoid_pool_check:
         afterpool = snapshot_pool_state()
         if afterpool != beforepool:
-            print >>sys.stderr, "Hugepage pool state not preserved!"
-            print >>sys.stderr, "BEFORE: %s" % str(beforepool)
-            print >>sys.stderr, "AFTER: %s" % str(afterpool)
+            print("Hugepage pool state not preserved!", file=sys.stderr)
+            print("BEFORE: %s" % str(beforepool), file=sys.stderr)
+            print("AFTER: %s" % str(afterpool), file=sys.stderr)
             sys.exit(98)
 
     return (rc, out)
@@ -142,22 +144,22 @@ def print_per_size(title, values):
     Print the results of a given result type on one line.  The results for all
     page sizes and word sizes are written in a table format.
     """
-    print "*%20s: " % title,
+    print("*%20s: " % title, end=' ')
     for sz in pagesizes:
-        print "%4s   %4s   " % (values[sz][32], values[sz][64]),
-    print
+        print("%4s   %4s   " % (values[sz][32], values[sz][64]), end=' ')
+    print()
 
 def results_summary():
     """
     Display a summary of the test results
     """
-    print "********** TEST SUMMARY"
-    print "*%21s" % "",
-    for p in pagesizes: print "%-13s " % pretty_page_size(p),
-    print
-    print "*%21s" % "",
-    for p in pagesizes: print "32-bit 64-bit ",
-    print
+    print("********** TEST SUMMARY")
+    print("*%21s" % "", end=' ')
+    for p in pagesizes: print("%-13s " % pretty_page_size(p), end=' ')
+    print()
+    print("*%21s" % "", end=' ')
+    for p in pagesizes: print("32-bit 64-bit ", end=' ')
+    print()
 
     print_per_size("Total testcases", R["total"])
     print_per_size("Skipped", R["skip"])
@@ -168,7 +170,7 @@ def results_summary():
     print_per_size("Expected FAIL", R["xfail"])
     print_per_size("Unexpected PASS", R["xpass"])
     print_per_size("Strange test result", R["strange"])
-    print "**********"
+    print("**********")
 
 def free_hpages():
     """
@@ -268,13 +270,13 @@ def check_hugetlbfs_path():
                 okbits.append(b)
                 mounts.append(out)
         if len(okbits) == 0:
-            print "run_tests.py: No mountpoints available for page size %s" % \
-                  pretty_page_size(p)
+            print("run_tests.py: No mountpoints available for page size %s" % \
+                  pretty_page_size(p))
             wordsizes_by_pagesize[p] = set()
             continue
         for b in wordsizes - set(okbits):
-            print "run_tests.py: The %i bit word size is not compatible with " \
-                  "%s pages" % (b, pretty_page_size(p))
+            print("run_tests.py: The %i bit word size is not compatible with " \
+                  "%s pages" % (b, pretty_page_size(p)))
         wordsizes_by_pagesize[p] = set(okbits)
 
 def check_linkhuge_tests():
@@ -296,10 +298,10 @@ def check_linkhuge_tests():
 
 def print_cmd(pagesize, bits, cmd, env):
     if env:
-        print ' '.join(['%s=%s' % (k, v) for k, v in env.items()]),
+        print(' '.join(['%s=%s' % (k, v) for k, v in env.items()]), end=' ')
     if type(cmd) != types.StringType:
         cmd = ' '.join(cmd)
-    print "%s (%s: %i):\t" % (cmd, pretty_page_size(pagesize), bits),
+    print("%s (%s: %i):\t" % (cmd, pretty_page_size(pagesize), bits), end=' ')
     sys.stdout.flush()
 
 def run_test(pagesize, bits, cmd, **env):
@@ -319,7 +321,7 @@ def run_test(pagesize, bits, cmd, **env):
 
     print_cmd(pagesize, bits, cmd, env)
     (rc, out) = run_test_prog(bits, pagesize, cmd, **env)
-    print out
+    print(out)
 
     R["total"][pagesize][bits] += 1
     if rc == 0:    R["pass"][pagesize][bits] += 1
@@ -338,7 +340,7 @@ def skip_test(pagesize, bits, cmd, **env):
     R["total"][pagesize][bits] += 1
     R["skip"][pagesize][bits] += 1
     print_cmd(pagesize, bits, cmd, env)
-    print "SKIPPED"
+    print("SKIPPED")
 
 def do_test(cmd, bits=None, **env):
     """
@@ -459,7 +461,7 @@ def setup_shm_sysctl(limit):
         fh = open(f, "w")
         fh.write(`limit`)
         fh.close()
-    print "set shmmax limit to %s" % limit
+    print("set shmmax limit to %s" % limit)
     return sysctls
 
 def restore_shm_sysctl(sysctls):
@@ -655,7 +657,7 @@ def main():
     try:
         opts, args = getopt.getopt(sys.argv[1:], "vVfdt:b:p:c")
     except getopt.GetoptError, err:
-        print str(err)
+        print(str(err))
         sys.exit(1)
     for opt, arg in opts:
        if opt == "-v":
@@ -680,8 +682,8 @@ def main():
     if len(pagesizes) == 0: pagesizes = get_pagesizes()
 
     if len(pagesizes) == 0:
-        print "Unable to find available page sizes, are you sure hugetlbfs"
-        print "is mounted and there are available huge pages?"
+        print("Unable to find available page sizes, are you sure hugetlbfs")
+        print("is mounted and there are available huge pages?")
         return 1
 
     setup_env(env_override, env_defaults)
@@ -689,8 +691,8 @@ def main():
 
     (rc, system_default_hpage_size) = hpage_size()
     if rc != 0:
-        print "Unable to find system default hugepage size."
-        print "Is hugepage supported included in this kernel?"
+        print("Unable to find system default hugepage size.")
+        print("Is hugepage supported included in this kernel?")
         return 1
 
     check_hugetlbfs_path()
