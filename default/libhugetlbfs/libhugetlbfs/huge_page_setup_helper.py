@@ -95,12 +95,14 @@ print(" * Remaining System Memory..: %6d MB" % (memTotal - (hugePages * hugePage
 print(" * Huge Page User Group.....:  %s (%d)" % (hugeGIDName, hugeGID))
 print()
 
+if sys.version_info < (3,):
+    input = raw_input
 
 # ask how memory they want to allocate for huge pages
 userIn = None
 while not userIn:
     try:
-        userIn = raw_input("How much memory would you like to allocate for huge pages? "
+        userIn = input("How much memory would you like to allocate for huge pages? "
                            "(input in MB, unless postfixed with GB): ")
         if userIn[-2:] == "GB":
             userHugePageReqMB = int(userIn[0:-2]) * 1024
@@ -136,7 +138,7 @@ inputIsValid = False
 # ask for the name of the group allowed access to huge pages
 while inputIsValid == False:
     foundbad = False
-    userGroupReq = raw_input("What group should have access to the huge pages?"
+    userGroupReq = input("What group should have access to the huge pages?"
                              "(The group will be created, if need be) [hugepages]: ")
     if userGroupReq is '':
         userGroupReq = 'hugepages'
@@ -188,7 +190,7 @@ inputIsValid = False
 # ask for user(s) that should be in the huge page access group
 while inputIsValid == False:
     foundbad = False
-    userUsersReq = raw_input("What user(s) should have access to the huge pages (space-delimited list, users created as needed)? ")
+    userUsersReq = input("What user(s) should have access to the huge pages (space-delimited list, users created as needed)? ")
     for char in badchars:
         if char in userUsersReq:
             foundbad = True
