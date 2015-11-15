@@ -2,6 +2,7 @@
 #
 # Licensed under the terms of the GNU GPL License version 2
 
+from __future__ import print_function
 from fedora.client import OpenIdBaseClient
 import getpass
 import sys, getopt
@@ -14,11 +15,11 @@ argv = sys.argv[1:]
 try:
     opts, args = getopt.getopt(argv,"hu:p:l:",["user=","password=", "logfile="])
 except getopt.GetoptError:
-    print 'fedora_submit.py -u <fasuser> [-p <password>] -l <logfile>'
+    print('fedora_submit.py -u <fasuser> [-p <password>] -l <logfile>')
     sys.exit(2)
 for opt, arg in opts:
     if opt == '-h':
-        print 'fedora_submit.py -u <fasuser> [-p <password>] -l <logfile>'
+        print('fedora_submit.py -u <fasuser> [-p <password>] -l <logfile>')
         sys.exit()
     elif opt in ("-u", "--user"):
         username = arg
@@ -28,7 +29,7 @@ for opt, arg in opts:
         log = arg
 
 if username == '' or log == '':
-    print 'fedora_submit.py -u <fasuser> [-p <password>] -l <logfile>'
+    print('fedora_submit.py -u <fasuser> [-p <password>] -l <logfile>')
     sys.exit(2)
 if password == '':
     password = getpass.getpass('FAS password: ')
@@ -51,4 +52,4 @@ req = submitclient.send_request(
     files= { 'test_result': ('logfile', open(log, 'rb'), 'text/x-log'),}
 )
  
-print req.message
+print(req.message)
