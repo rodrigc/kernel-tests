@@ -51,4 +51,4 @@ req = submitclient.send_request(
     files= { 'test_result': ('logfile', open(log, 'rb'), 'text/x-log'),}
 )
  
-print req.text
+print req.message
